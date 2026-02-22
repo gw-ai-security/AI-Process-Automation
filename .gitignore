@@ -1,15 +1,26 @@
 ########################################
-# General
+# OS Generated Files
 ########################################
 .DS_Store
 Thumbs.db
-*.log
-*.tmp
-*.swp
-*.swo
+Desktop.ini
+$RECYCLE.BIN/
 
 ########################################
-# Environment & Secrets
+# Editor / IDE (global only)
+########################################
+.vscode/
+.idea/
+*.iml
+
+########################################
+# Logs (only root-level logs)
+########################################
+*.log
+*.tmp
+
+########################################
+# Environment / Secrets (root only)
 ########################################
 .env
 .env.*
@@ -19,94 +30,11 @@ Thumbs.db
 *.crt
 secrets/
 credentials/
-config.local.*
 
 ########################################
-# Python
+# Archive Artifacts
 ########################################
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual Environments
-venv/
-.venv/
-env/
-ENV/
-
-# Distribution / packaging
-build/
-dist/
-*.egg-info/
-.eggs/
-
-# Testing
-.pytest_cache/
-.coverage
-.coverage.*
-htmlcov/
-.tox/
-.mypy_cache/
-.ruff_cache/
-
-# Jupyter
-.ipynb_checkpoints/
-
-########################################
-# Node.js / n8n
-########################################
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-.pnpm-store/
-.npm/
-
-# n8n
-.n8n/
-n8n_data/
-
-########################################
-# Docker
-########################################
-docker-compose.override.yml
+*.zip
 *.tar
 *.gz
-
-########################################
-# Databases
-########################################
-*.sqlite
-*.sqlite3
-*.db
-*.db-journal
-*.sql
-dump.rdb
-
-########################################
-# Logs
-########################################
-logs/
-*.log
-
-########################################
-# Coverage / Reports
-########################################
-coverage/
-reports/
-*.coverage
-*.lcov
-
-########################################
-# IDE / Editor
-########################################
-.vscode/
-.idea/
-*.iml
-
-########################################
-# OS Generated
-########################################
-Desktop.ini
-$RECYCLE.BIN/
+*.rar
