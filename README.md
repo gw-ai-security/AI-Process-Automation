@@ -92,6 +92,10 @@ Disconnected systems and manual data synchronization.
 Shows how to build a secure integration layer that is measurable,
 observable, and production-ready.
 
+### Dokumentation
+- Projektinterne Dokumentation im Modul: `01-rest-api-integration-hub/docs/README.md`.
+- Glossar, Change Log und Wartungsanleitung im gleichen Ordner (z. B. `docs/glossary.md`, `docs/06_change_log.md`).
+
 ------------------------------------------------------------------------
 
 ## 02 -- AI Workflow Automation Engine
