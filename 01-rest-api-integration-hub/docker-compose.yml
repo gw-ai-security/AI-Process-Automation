@@ -25,6 +25,11 @@ services:
       N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER}
       N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD}
       WEBHOOK_URL: ${WEBHOOK_URL}
+      WEBHOOK_HMAC_SECRET: ${WEBHOOK_HMAC_SECRET}
+      WEBHOOK_MAX_SKEW_SECONDS: ${WEBHOOK_MAX_SKEW_SECONDS}
+      MOCK_CRM_URL: ${MOCK_CRM_URL}
+      MOCK_JC_URL: ${MOCK_JC_URL}
+      PROCESSOR_URL: http://processor:8000
     volumes:
       - n8n_data:/home/node/.n8n
       - ./n8n/workflows:/workflows:ro
@@ -43,10 +48,33 @@ services:
       WEBHOOK_MAX_SKEW_SECONDS: ${WEBHOOK_MAX_SKEW_SECONDS}
       PROCESSOR_LOG_LEVEL: ${PROCESSOR_LOG_LEVEL}
       EMAIL_HASH_SALT: ${EMAIL_HASH_SALT}
+      MOCK_CRM_URL: ${MOCK_CRM_URL}
     depends_on:
       postgres:
         condition: service_healthy
-        
+
+  mock-crm:
+    build: ./mock-crm
+    ports:
+      - "9001:9001"
+    environment:
+      LOG_LEVEL: info
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  mock-jira-confluence:
+    build: ./mock-jira-confluence
+    ports:
+      - "9002:9002"
+    volumes:
+      - ./alerts:/alerts
+    environment:
+      ALERTS_DIR: /alerts
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   pgdata:
   n8n_data:

@@ -78,6 +78,7 @@ Disconnected systems and manual data synchronization.
 -   Mock CRM integration
 -   Audit logging and Dead Letter Queue (DLQ)
 -   KPI tracking for automation success
+-   Smoke-tested error paths with mock Jira/Confluence alerts and KPI aggregation via `scripts/`.
 
 ### Technologies
 

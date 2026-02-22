@@ -18,4 +18,7 @@
 5. [05_audit_kpi.md](05_audit_kpi.md) – Datenbanktabellen für Runs, Audit, DLQ und KPI sowie Beispielabfragen.
 6. [06_change_log.md](06_change_log.md) – Datiertes Änderungsprotokoll mit technischer und geschäftlicher Bewertung.
 7. [glossary.md](glossary.md) – Begriffsdefinitionen mit Non-IT- und IT-Notizen.
-8. [DOCS_MAINTENANCE_SKILL.md](DOCS_MAINTENANCE_SKILL.md) – Wartungsprozess, Vorlagen und Checkliste für Dokumentupdates.
+8. [kpis.md](kpis.md) – KPI-Definitionen, Aggregationslogik und Reporting-Hinweise.
+9. [threat_model.md](threat_model.md) – Assets, Bedrohungen und Sicherheitskontrollen im Projekt.
+10. [rc_checklist.md](rc_checklist.md) – Release-Candidate-Checkliste inklusive Smoke/Fehlerfälle und Dokumentationsprüfung.
+11. [DOCS_MAINTENANCE_SKILL.md](DOCS_MAINTENANCE_SKILL.md) – Wartungsprozess, Vorlagen und Checkliste für Dokumentupdates.

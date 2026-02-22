@@ -79,3 +79,38 @@
 - **Definition (Nicht‑IT):** Abfolge von Schritten zur Datenverarbeitung.
 - **Technische Notiz:** In `n8n/workflows` liegen (derzeit keine) JSON-Definitionen, die bei Bedarf die Processor-URL kontaktieren.
 - **Vorkommen:** `docs/01_overview.md`, `docs/03_setup_runbook.md`
+
+## Alert File
+- **Definition (Nicht‑IT):** Kleine JSON-Datei, die Stakeholder über Fehlerpfade informiert.
+- **Technische Notiz:** `mock-jira-confluence` schreibt `statusCode`, `alert`, `payload` und Response nach `alerts/`; das Verzeichnis wird als Volume im Compose-Stack bereitgestellt.
+- **Vorkommen:** `docs/03_setup_runbook.md`, `docs/05_audit_kpi.md`
+
+## HMAC
+- **Definition (Nicht‑IT):** Kryptografischer Signatur-Check, der sicherstellt, dass Inhalte nicht manipuliert wurden.
+- **Technische Notiz:** Processor berechnet `signature = sha256(secret, f"{timestamp}.{body}")` mit der Umgebungsvariable `WEBHOOK_HMAC_SECRET` und vergleicht sie via `hmac.compare_digest`.
+- **Vorkommen:** `docs/02_architecture.md`, `docs/04_api_contracts.md`
+
+## KPI
+- **Definition (Nicht‑IT):** Messnummern für Erfolg, Fehler und Zeiteinsparung der Automation.
+- **Technische Notiz:** `kpi_daily` speichert `received_count`, `processed_count`, `failed_count`, `dlq_open_count`, `avg_processing_ms`; `docs/kpis.md` führt Formeln wie `success_rate`, `manual_rework_rate` und `saved_minutes` auf.
+- **Vorkommen:** `docs/05_audit_kpi.md`, `docs/kpis.md`
+
+## Mock CRM
+- **Definition (Nicht‑IT):** Simulierter Ziel-Service, der Leads empfängt und „erstellt/updated“ meldet.
+- **Technische Notiz:** FastAPI-Container auf Port 9001 (`mock-crm`) verarbeitet `POST /leads/upsert`, speichert idempotente Keys und antwortet mit `crm_id` + `action`.
+- **Vorkommen:** `docs/01_overview.md`, `docs/02_architecture.md`, `docs/03_setup_runbook.md`
+
+## Mock Jira/Confluence
+- **Definition (Nicht‑IT):** Logger für „would-call“-Payloads, der Fehlermeldungen archiviert.
+- **Technische Notiz:** `mock-jira-confluence` nimmt POSTs auf `/log` auf, schreibt JSON nach `alerts/` und setzt im Payload `alert=true`, wenn `statusCode >= 400` ist.
+- **Vorkommen:** `docs/02_architecture.md`, `docs/03_setup_runbook.md`, `docs/05_audit_kpi.md`
+
+## PII
+- **Definition (Nicht‑IT):** Personenbezogene Daten wie E-Mail, Name oder Telefonnummer.
+- **Technische Notiz:** Der Processor maskiert/leitet `email` um und schreibt nur `email_masked` und `email_hash` in Datenbank/Revisionslogs; keine Roh-E-Mail im Audit/Audit-Payload.
+- **Vorkommen:** `docs/02_architecture.md`, `docs/05_audit_kpi.md`
+
+## Replay
+- **Definition (Nicht‑IT):** Wiederholtes Senden desselben Webhooks (z. B. durch ein fehlerhaftes System).
+- **Technische Notiz:** Processor prüft `X-Timestamp` und erlaubt nur `abs(now - timestamp) <= WEBHOOK_MAX_SKEW_SECONDS`; ältere Calls liefern HTTP 409 und landen ggf. im DLQ.
+- **Vorkommen:** `docs/04_api_contracts.md`, `docs/03_setup_runbook.md`

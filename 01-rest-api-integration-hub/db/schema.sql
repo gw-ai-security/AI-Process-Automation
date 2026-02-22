@@ -5,6 +5,8 @@ create table if not exists runs (
   idempotency_key text not null,
   source text not null,
   received_at timestamptz not null default now(),
+  email_hash text,
+  email_masked text,
   status text not null check (status in ('accepted','processed','failed')),
   error_code text,
   error_message text

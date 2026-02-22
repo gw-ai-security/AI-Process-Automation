@@ -19,6 +19,19 @@
     },
     {
       "parameters": {
+        "functionCode": "const crypto = require('crypto');\nconst payload = $node['Webhook'].json.body || {};\nconst bodyString = JSON.stringify(payload);\nconst secret = process.env.WEBHOOK_HMAC_SECRET || 'replace-with-strong-secret';\nconst timestamp = Math.floor(Date.now() / 1000).toString();\nconst signingString = `${timestamp}.${bodyString}`;\nconst signature = `sha256=${crypto.createHmac('sha256', secret).update(signingString).digest('hex')}`;\nreturn [{ json: { payload, bodyString, timestamp, signature } }];"
+      },
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        200,
+        0
+      ],
+      "id": "function-add-headers",
+      "name": "Add Headers"
+    },
+    {
+      "parameters": {
         "method": "POST",
         "url": "http://processor:8000/webhook/lead",
         "sendHeaders": true,
@@ -26,36 +39,105 @@
           "parameters": [
             {
               "name": "X-Idempotency-Key",
-              "value": "={{$json.body.idempotency_key}}"
+              "value": "={{$node['Webhook'].json['body']['idempotency_key'] || 'n8n-' + Date.now()}}"
             },
             {
               "name": "X-Source",
               "value": "n8n"
+            },
+            {
+              "name": "X-Timestamp",
+              "value": "={{$node['Add Headers'].json['timestamp']}}"
+            },
+            {
+              "name": "X-Signature",
+              "value": "={{$node['Add Headers'].json['signature']}}"
             }
           ]
         },
         "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{$json.body}}",
-        "options": {}
+        "bodyContentType": "raw",
+        "rawBody": "={{$node['Add Headers'].json['bodyString']}}",
+        "options": {
+          "fullResponse": true
+        }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        208,
+        400,
         0
       ],
-      "id": "31b8ea35-93b5-48a6-9984-254d0d8eec39",
-      "name": "HTTP Request"
+      "id": "processor-http",
+      "name": "Processor Request"
+    },
+    {
+      "parameters": {
+        "responseMode": "response",
+        "responseData": "={{$node['Processor Request'].json}}"
+      },
+      "type": "n8n-nodes-base.webhook-response",
+      "typeVersion": 1,
+      "position": [
+        600,
+        -120
+      ],
+      "id": "webhook-response",
+      "name": "Webhook Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://mock-jira-confluence:9002/log",
+        "jsonParameters": true,
+        "options": {
+          "bodyContentType": "json"
+        },
+        "jsonBody": "={\"run_id\": $node['Processor Request'].json['run_id'] || $node['Webhook'].json['body']['idempotency_key'], \"statusCode\": $node['Processor Request'].json['statusCode'], \"alert\": ($node['Processor Request'].json['statusCode'] >= 400), \"response\": $node['Processor Request'].json, \"payload\": $node['Webhook'].json['body']}"
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        600,
+        120
+      ],
+      "id": "mock-jira-log",
+      "name": "Mock Jira Logger"
     }
   ],
-  "pinData": {},
   "connections": {
     "Webhook": {
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Add Headers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Headers": {
+      "main": [
+        [
+          {
+            "node": "Processor Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Processor Request": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Mock Jira Logger",
             "type": "main",
             "index": 0
           }
