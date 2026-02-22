@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  n8n:
+    image: n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    environment:
+      N8N_BASIC_AUTH_ACTIVE: ${N8N_BASIC_AUTH_ACTIVE}
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD}
+      WEBHOOK_URL: ${WEBHOOK_URL}
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./n8n/workflows:/workflows:ro
+      - ./alerts:/alerts
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  processor:
+    build: ./processor
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      WEBHOOK_HMAC_SECRET: ${WEBHOOK_HMAC_SECRET}
+      WEBHOOK_MAX_SKEW_SECONDS: ${WEBHOOK_MAX_SKEW_SECONDS}
+      PROCESSOR_LOG_LEVEL: ${PROCESSOR_LOG_LEVEL}
+      EMAIL_HASH_SALT: ${EMAIL_HASH_SALT}
+    depends_on:
+      postgres:
+        condition: service_healthy
+        
+volumes:
+  pgdata:
+  n8n_data:

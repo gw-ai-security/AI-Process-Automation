@@ -1,0 +1,18 @@
+# env / secrets
+.env
+*.env
+
+# docker volumes / local state
+pgdata/
+n8n_data/
+
+# runtime artifacts
+mock_payloads/
+alerts/
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
