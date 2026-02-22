@@ -1,0 +1,78 @@
+{
+  "name": "01_lead_intake_forward_to_processor",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-intake",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "97dbaff5-8fa7-4298-8ba0-44b84fd658a2",
+      "name": "Webhook",
+      "webhookId": "8165e53c-c343-40dd-83b2-eb2df8d518ac"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://processor:8000/webhook/lead",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Idempotency-Key",
+              "value": "={{$json.body.idempotency_key}}"
+            },
+            {
+              "name": "X-Source",
+              "value": "n8n"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json.body}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "31b8ea35-93b5-48a6-9984-254d0d8eec39",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "c079ec55-b319-4adb-bf64-82ee95fbb67e",
+  "meta": {
+    "instanceId": "cd7b155224e8abe49692967b01305f918e3e188e5a3b95f339fa219dca2dfa9c"
+  },
+  "id": "7R4ooUiFW7kGumuL",
+  "tags": []
+}
