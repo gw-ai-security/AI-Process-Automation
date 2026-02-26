@@ -8,7 +8,11 @@ from typing import Any, Dict, Optional
 
 import httpx
 import psycopg
+import logging
 from fastapi import FastAPI, Header, HTTPException, Request
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Integration Hub Processor", version="0.2.0")
 
@@ -218,6 +222,7 @@ async def webhook_lead(
         return {"status": "accepted", "run_id": str(run_id)}
 
     except Exception as e:
+        logger.error(f"Processing failed: {e}", exc_info=True)
         try:
             with psycopg.connect(get_db_url()) as conn:
                 conn.autocommit = True
