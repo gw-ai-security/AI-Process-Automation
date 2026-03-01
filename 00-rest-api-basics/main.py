@@ -12,7 +12,7 @@ def rest_basics_demo():
     
     print("--- 1. GET (Daten abrufen) ---")
     # Wir holen uns den Beitrag mit der ID 1
-    res_get = requests.get(f"{base_url}/1")
+    res_get = requests.get(f"{base_url}/2")
     if res_get.status_code == 200:
         post = res_get.json()
         print(f"Titel: {post['title']}\n")
