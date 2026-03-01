@@ -1,0 +1,15 @@
+# Python virtuelle Umgebungen
+venv/
+.env
+
+# Byte-compiled Dateien
+__pycache__/
+*.py[cod]
+
+# Log-Dateien (wir wollen das lokale Log nicht hochladen)
+*.txt
+!requirements.txt
+
+# Betriebssystem-Spezifisches
+.DS_Store
+Thumbs.db
