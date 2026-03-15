@@ -1,0 +1,8 @@
+{
+  "source_type": "support_text",
+  "source_system": "helpdesk",
+  "content": "Customer reported repeated access issues after account migration and asked for an urgent callback.",
+  "submitted_by": "support.agent@example.com",
+  "tags": ["support", "access", "migration"],
+  "priority": "high"
+}

@@ -1,0 +1,12 @@
+flowchart LR
+    A[Unstructured Intake] --> B[FastAPI POST /intake]
+    B --> C[Validation + Correlation ID]
+    C --> D[LLM Service JSON Extraction]
+    D --> E[Routing Service]
+    E --> F[(PostgreSQL)]
+    F --> G[GET /workflow/{id}]
+    F --> H[GET /metrics/summary]
+    B --> I[n8n Webhook Flow]
+    I --> J[High -> Mock Jira]
+    I --> K[Medium -> Mock Slack]
+    I --> L[Low -> Store Only]

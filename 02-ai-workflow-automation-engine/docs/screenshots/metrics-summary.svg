@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#111827"/>
+  <rect x="24" y="24" width="912" height="492" rx="10" fill="#0f172a" stroke="#334155"/>
+  <text x="46" y="66" fill="#e2e8f0" font-family="Consolas, monospace" font-size="24">GET /metrics/summary - Preview</text>
+  <text x="46" y="110" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">total_inputs: 24</text>
+  <text x="46" y="145" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">success_rate: 1.0</text>
+  <text x="46" y="180" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">avg_processing_time_ms: 132.5</text>
+  <text x="46" y="215" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">total_saved_minutes: 360</text>
+  <text x="46" y="255" fill="#e2e8f0" font-family="Consolas, monospace" font-size="18">route_counts</text>
+  <rect x="46" y="275" width="820" height="26" fill="#1e293b"/>
+  <rect x="46" y="275" width="310" height="26" fill="#22c55e"/>
+  <text x="52" y="294" fill="#0f172a" font-family="Consolas, monospace" font-size="14">support 38%</text>
+  <rect x="46" y="315" width="820" height="26" fill="#1e293b"/>
+  <rect x="46" y="315" width="240" height="26" fill="#38bdf8"/>
+  <text x="52" y="334" fill="#0f172a" font-family="Consolas, monospace" font-size="14">ops 29%</text>
+  <rect x="46" y="355" width="820" height="26" fill="#1e293b"/>
+  <rect x="46" y="355" width="170" height="26" fill="#f59e0b"/>
+  <text x="52" y="374" fill="#0f172a" font-family="Consolas, monospace" font-size="14">sales 21%</text>
+  <rect x="46" y="395" width="820" height="26" fill="#1e293b"/>
+  <rect x="46" y="395" width="100" height="26" fill="#a78bfa"/>
+  <text x="52" y="414" fill="#0f172a" font-family="Consolas, monospace" font-size="14">product 12%</text>
+</svg>

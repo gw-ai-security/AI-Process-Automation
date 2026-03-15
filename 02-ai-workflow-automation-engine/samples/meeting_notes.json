@@ -1,0 +1,8 @@
+{
+  "source_type": "meeting_note",
+  "source_system": "weekly-ops-sync",
+  "content": "Finance approval is still pending for the onboarding tool rollout and action items were assigned to legal and IT.",
+  "submitted_by": "ops.lead@example.com",
+  "tags": ["meeting", "rollout", "finance"],
+  "priority": "medium"
+}

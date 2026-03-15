@@ -1,0 +1,14 @@
+name: example-agent
+role: Short role description
+responsibilities:
+  - responsibility one
+allowed_scope:
+  - allowed area
+forbidden_scope:
+  - forbidden area
+inputs:
+  - input one
+outputs:
+  - output one
+dependencies:
+  - related-agent

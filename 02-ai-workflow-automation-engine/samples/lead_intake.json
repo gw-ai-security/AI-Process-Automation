@@ -1,0 +1,8 @@
+{
+  "source_type": "onboarding_note",
+  "source_system": "sales-handoff",
+  "content": "New client requires procurement onboarding, NDA review, and a technical kickoff next week.",
+  "submitted_by": "sales.ops@example.com",
+  "tags": ["client", "onboarding", "handoff"],
+  "priority": "medium"
+}

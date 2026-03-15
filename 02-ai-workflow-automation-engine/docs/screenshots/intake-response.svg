@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#0f172a"/>
+  <rect x="24" y="24" width="912" height="492" rx="10" fill="#111827" stroke="#334155"/>
+  <text x="46" y="66" fill="#e2e8f0" font-family="Consolas, monospace" font-size="24">POST /intake - Response Preview</text>
+  <text x="46" y="108" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">{</text>
+  <text x="72" y="138" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">"workflow_id": 12,</text>
+  <text x="72" y="168" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">"priority": "high",</text>
+  <text x="72" y="198" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">"route_to": "support",</text>
+  <text x="72" y="228" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">"summary": "...",</text>
+  <text x="72" y="258" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">"saved_minutes": 15,</text>
+  <text x="72" y="288" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">"processing_time_ms": 124</text>
+  <text x="46" y="320" fill="#94a3b8" font-family="Consolas, monospace" font-size="18">}</text>
+  <text x="46" y="500" fill="#64748b" font-family="Consolas, monospace" font-size="16">AI Workflow Automation Engine MVP</text>
+</svg>

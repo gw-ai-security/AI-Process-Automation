@@ -1,0 +1,251 @@
+{
+  "name": "Operational Intake MVP",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "operational-intake",
+        "responseMode": "lastNode"
+      },
+      "id": "Webhook_1",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://app:8000/intake",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}"
+      },
+      "id": "HTTPRequest_1",
+      "name": "Call FastAPI Intake",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        500,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"priority\"]}}",
+              "operation": "equal",
+              "value2": "high"
+            }
+          ]
+        }
+      },
+      "id": "If_1",
+      "name": "Priority High?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        760,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://app:8000/mock/jira",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\"workflow_id\": $json[\"workflow_id\"], \"correlation_id\": $json[\"correlation_id\"], \"summary\": $json[\"summary\"], \"priority\": $json[\"priority\"], \"route_to\": $json[\"route_to\"] } }}"
+      },
+      "id": "HTTPRequest_2",
+      "name": "Mock Jira",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1020,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"priority\"]}}",
+              "operation": "equal",
+              "value2": "medium"
+            }
+          ]
+        }
+      },
+      "id": "If_2",
+      "name": "Priority Medium?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1020,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://app:8000/mock/slack",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\"workflow_id\": $json[\"workflow_id\"], \"correlation_id\": $json[\"correlation_id\"], \"summary\": $json[\"summary\"], \"priority\": $json[\"priority\"], \"route_to\": $json[\"route_to\"] } }}"
+      },
+      "id": "HTTPRequest_3",
+      "name": "Mock Slack",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1280,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": false,
+        "values": {
+          "string": [
+            {
+              "name": "route_action",
+              "value": "store_only"
+            }
+          ]
+        }
+      },
+      "id": "Set_1",
+      "name": "Low Priority Store Only",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": false,
+        "values": {
+          "string": [
+            {
+              "name": "workflow_log",
+              "value": "Operational intake workflow completed."
+            }
+          ]
+        }
+      },
+      "id": "Set_2",
+      "name": "Final Log",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        320
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Call FastAPI Intake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call FastAPI Intake": {
+      "main": [
+        [
+          {
+            "node": "Priority High?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Priority High?": {
+      "main": [
+        [
+          {
+            "node": "Mock Jira",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Priority Medium?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Priority Medium?": {
+      "main": [
+        [
+          {
+            "node": "Mock Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Low Priority Store Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Jira": {
+      "main": [
+        [
+          {
+            "node": "Final Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Slack": {
+      "main": [
+        [
+          {
+            "node": "Final Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Low Priority Store Only": {
+      "main": [
+        [
+          {
+            "node": "Final Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "mvp-v1"
+}
